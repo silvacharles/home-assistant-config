@@ -1,5 +1,5 @@
 python:
-  - "3.5"
+  - "3.5.3"
 before_install:
   - mv travis_secrets.yaml secrets.yaml
 install:

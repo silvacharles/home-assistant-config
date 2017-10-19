@@ -9,8 +9,6 @@ homeassistant:
 
 #introduction:
 
-frontend:
-
 config:
 
 http:
@@ -39,3 +37,4 @@ tts:
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
+frontend: !include themes.yaml

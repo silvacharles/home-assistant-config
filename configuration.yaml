@@ -71,6 +71,13 @@ recorder:
 #      - sensor.last_boot
 #      - sensor.date
 
+proximity:
+  charles:
+    devices:
+    - device_tracker.charlessilva
+    tolerance: 50
+    unit_of_measurement: m
+
 device_tracker:
   - platform: ddwrt
     host: 10.10.0.30

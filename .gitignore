@@ -19,11 +19,17 @@ secrets.yaml
 .google.token
 secrets.yaml
 known_devices.yaml
+home-assistant_v2.db-shm
+home-assistant_v2.db-wa
+home-assistant_v2.db
+.uuid
 
 # Directories
 icloud
 deps
 www
+.cloud/
+
 
 # Python Caches
 __pycache__

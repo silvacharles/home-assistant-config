@@ -9,6 +9,8 @@ homeassistant:
 
 #introduction:
 
+frontend:
+
 config:
 
 http:
@@ -27,6 +29,10 @@ history:
 logbook:
 
 sun:
+
+map:
+
+cloud:
 
 sensor:
   - platform: yr

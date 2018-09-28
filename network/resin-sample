@@ -1,0 +1,13 @@
+[connection]
+id=hassos-network
+uuid=db8f2586-745e-4af1-a4e4-56b842bdd2d5
+type=802-3-ethernet
+
+[ipv4]
+method=manual
+address1=192.168.0.100/24,192.168.0.1
+dns=8.8.8.8;8.8.4.4;
+
+[ipv6]
+addr-gen-mode=stable-privacy
+method=auto

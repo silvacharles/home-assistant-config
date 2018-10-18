@@ -17,18 +17,27 @@ known_devices.yaml
 google_calendars.yaml
 secrets.yaml
 .google.token
+.google_maps_location_sharing.cookies
+.shopping_list.json
 secrets.yaml
 known_devices.yaml
 home-assistant_v2.db-shm
 home-assistant_v2.db-wa
 home-assistant_v2.db
 .uuid
+creds.data
+html5_push_registrations.conf
+google_calendars.yaml
+zones.yaml
 
 # Directories
 icloud
 deps
 www
 .cloud/
+.storage
+appdaemon
+node-red
 
 
 # Python Caches

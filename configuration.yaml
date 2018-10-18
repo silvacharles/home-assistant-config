@@ -1,11 +1,12 @@
 homeassistant:
   name: Home
-  latitude: -20.393
-  longitude: -43.6419
-  elevation: 1200
+  latitude: !secret latitude 
+  longitude: !secret longitude
+  elevation: 500
   unit_system: metric
   time_zone: America/Sao_Paulo
   customize: !include customize.yaml
+  packages: !include_dir_named packages
 
 notify:
   - name: html5
@@ -13,112 +14,206 @@ notify:
     gcm_api_key: !secret html5_api_key
     gcm_sender_id: !secret html5_sender_id 
 
-
-#introduction:
-
-#frontend:
-
 config:
 
 http:
- api_password: !secret http_password
- ip_ban_enabled: True
- login_attempts_threshold: 50
- #ssl_certificate: /etc/letsencrypt/live/iot.charlessilva.com.br/fullchain.pem
- #ssl_key: /etc/letsencrypt/live/iot.charlessilva.com.br/privkey.pem
- #base_url: homeassistant.charlessilva.net.br
-
+  api_password: !secret http_password
+  ip_ban_enabled: True
+  login_attempts_threshold: 50
+  base_url: !secret dominio
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
 
 ifttt:
   key: !secret ifttt_key
 
-sensor:
-  - platform: travisci
-    api_key: !secret travis_key
-#    repository:
-#     silvacharles/AndroidUtils
-#     silvacharles/CSMobile
-#     silvacharles/home-assistant-config
-    monitored_conditions:
-     state
-
 mqtt:
-  broker: 127.0.0.1
+  broker: core-mosquitto
+#  broker: 127.0.0.1
   port: 1883
   username: !secret user_mqtt
   password: !secret pass_mqtt
   keepalive: 60
-  protocol: 3.1.1
+  protocol: 3.1.1  
 
-google:
-  client_id: !secret google_client_id
-  client_secret: !secret google_client_secret
-# track_new_calendar: true
+# Não muito utilizado no Hass.io
+updater:
 
+discovery:
+   ignore:
+    - directv
+
+conversation:
+
+history:
+ exclude:
+    domains:
+      - automation
+      - weblink
+#      - updater
+    entities:
+      - sensor.last_boot
+      - sensor.date
+      - sensor.time_utc
+      - sensor.time
+
+logbook:
+ exclude:
+    entities:
+      - sensor.last_boot
+      - sensor.date
+      - sensor.time_utc
+      - sensor.time
+    domains:
+      - sun
+      - weblink
 
 recorder:
-  purge_interval: 2
-  purge_keep_days: 5
-# db_url: sqlite:///home/homeassistant/.homeassistant/home-assistant.db
-# db_url: !secret mysql_password
-#  exclude:
-#    domains:
-#      - automation
-#      - weblink
-#      - updater
-#    entities:
-#      - sun.sun
-#      - sensor.last_boot
-#      - sensor.date
+#  purge_interval: 2
+#  purge_keep_days: 5
+#  db_url: !secret BD_SQLITE
 
+  exclude:
+    domains:
+      - automation
+      - weblink
+      - updater
+    entities:
+      - sun.sun   # Don't record sun data
+      - sensor.last_boot
+      - sensor.time_utc
+      - sensor.time
+      - sensor.date 
+
+map:
+
+sun:
+
+weather:
+   - platform: met
+   - platform: darksky
+     api_key: !secret darksky_api_key
+#sensor:
+#  - platform: yr
+
+influxdb:
+  host: 127.0.0.1
+  port: 8086
+  ssl: false
+  verify_ssl: false
+  database: homeassistant
+  username: homeassistant
+  password: !secret influxdb_password
+  max_retries: 3
+  default_measurement: state
+#  include:
+#    entities:
+#      - sensor.luz_quarto
+#      - sensor.temp_quarto
+#    domains:
+#      - device_tracker
+#      - switch  
+
+sensor:
+  - platform: pi_hole
+    host: !secret url_sensor_pihole
+    ssl: true
+    verify_ssl: false
+    monitored_conditions:
+      - ads_blocked_today
+      - dns_queries_today
+      - unique_clients
+      - domains_being_blocked
+      - ads_percentage_today
+      - unique_domains
+
+       
+  - platform: uber
+    start_latitude: -21.202704
+    start_longitude: -43.757395
+    end_latitude: -21.220349
+    end_longitude: -43.773412
+    server_token: !secret uber_api
+#    product_ids:
+#      - 'd74e604a-6030-44d9-ac83-b8a327cfd6f0'
+
+#  - platform: waze_travel_time
+#    origin: Los Angeles, CA
+#    destination: Nova York, NY
+#    destination: Silicon Valley, CA
+#    region: 'US'
+      
+  - platform: transmission
+    host: 10.10.0.17
+    monitored_variables:
+      - 'current_status'
+      - 'download_speed'
+      - 'upload_speed'
+      - 'active_torrents'
+      - 'paused_torrents'
+      - 'total_torrents'
+  
 proximity:
-  charles:
+  casa:
+    zone: home
     devices:
     - device_tracker.charlessilva
+    - device_tracker.google_maps_106106491468405366833
+    - device_tracker.mae
     tolerance: 50
     unit_of_measurement: m
 
+  trabalho:
+    zone: TRABALHO
+    devices:
+    - device_tracker.charlessilva
+    tolerance: 30
+    unit_of_measurement: m
+
+  casamae:
+    zone: MAE
+    devices:
+    - device_tracker.mae
+    - device_tracker.charlessilva
+    tolerance: 30
+    unit_of_measurement: m
+
+  predinhos:
+    zone: PREDINHOS
+    devices:
+    - device_tracker.mae
+    - device_tracker.charlessilva
+    tolerance: 30
+    unit_of_measurement: m
+
 device_tracker:
+
+  - platform: google_maps
+    username: !secret gmu_charles
+    password: !secret gmp_charles
+
   - platform: ddwrt
     host: 10.10.0.30
     username: !secret ddwrt_user
     password: !secret ddwrt_pass
-
+  
   - platform: gpslogger
+    password: !secret gpslogger_password
 
   - platform: bluetooth_tracker
-
-#  - platform: ping
-#    hosts:
-#      roteador: 10.10.0.30
 
   - platform: icloud
     username: !secret icloud_user
     password: !secret icloud_pass
     account_name: CharlesIPad2
 
-#  - platform: snmp
-#    host: 100.64.13.169
-#    community: public
-#    baseoid: 1.3.6.1.2.1.4.22.1.2
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+#  track_new_calendar: true
 
-
-
-
-updater:
-  # include_used_components: true
-
-discovery:
-
-conversation:
-
-history:
-
-logbook:
-
-sun:
-
-map:
+tts:
+  - platform: google
 
 cloud:
 
@@ -127,27 +222,46 @@ scene:
     entities:
       switch.ac:
         state: off
+      media_player.googlehome:
+        state: off
 
 
 panel_iframe:
-  router:
-    title: 'Site'
-    icon: mdi:approval
-    url: 'http://www.charlessilva.com.br'
+  dashboard:
+    title: 'Grafana'
+    icon: mdi:chart-arc
+    url: !secret url_grafana
 
+  nodered:
+    title: Node-RED
+    icon: mdi:sitemap
+    url: !secret url_nodered 
 
-sensor:
-  - platform: yr
+  pihole:
+    title: Pi-hole
+    icon: mdi:block-helper
+    url: !secret url_pihole 
+
+  hassconfigutator:
+    title: HASS Configurator
+    icon: mdi:settings
+    url: !secret url_hassconfigurator 
+
+  influxdb:
+    title: InfluxDB
+    icon: mdi:chart-areaspline
+    url: !secret url_influxdb
+
+  tasmoadmin:
+    title: TasmoAdmin
+    icon: mdi:lightbulb-on
+    url: !secret url_tasmoadmin
 
 shopping_list:
 
-
-tts:
-  - platform: google
-#    language: 'en'
-
-
-group: !include groups.yaml
+group: !include_dir_merge_named groups
 automation: !include automations.yaml
 script: !include scripts.yaml
 frontend: !include themes.yaml
+zone: !include zones.yaml
+weblink: !include weblink.yaml

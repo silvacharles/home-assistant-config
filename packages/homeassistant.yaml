@@ -1,0 +1,437 @@
+homeassistant:
+  customize:
+
+    package.node_anchors:
+      customize: &customize
+        package: 'homeassistant'
+
+      exposed: &exposed
+        <<: *customize
+        emulated_hue: true
+        homebridge_hidden: false
+        critical: true
+
+      not_exposed: &not_exposed
+        <<: *customize
+        emulated_hue: false
+        homebridge_hidden: true
+        critical: false
+
+      hidden: &hidden
+        hidden: true
+        critical: false
+
+    group.all_switches:
+      order: 1
+
+    group.sistema_de_monitoramento:
+      order: 2
+
+    group.velocidade_da_internet:
+      order: 3
+
+    group.pihole_ad_blocker:
+      order: 4
+
+    group.date_time:
+      order: 5
+
+    group.dispositivos:
+       order: 6
+
+    group.data_e_hora:
+       order: 7   
+
+    weather.dark_sky:
+       order: 8
+
+    group.home_assistant_automations:
+      order: 10
+      
+    group.all_scripts:
+      order: 80
+   
+    group.links:
+       order: 90
+
+    group.common_urls:
+      order: 100
+
+    binary_sensor.workday_sensor:
+      <<: *hidden
+
+switch:
+  - platform: mqtt
+    name: "AC"
+    state_topic: "blackboard/tomada_AC"
+    command_topic: "blackboard/tomada_AC"
+ #   availability_topic: "blackboard/tomada_AC"
+    payload_on: "liga"
+    payload_off: "desliga"
+    optimistic: true
+    qos: 0
+    retain: true
+
+input_select: 
+  who_cooks:
+    name: Quem cozinha hoje
+    options:
+     - Charles
+     - Michele
+     - Pai
+    initial: Charles
+    icon: mdi:panda
+  living_room_preset:
+    name: Sala de estar predefinida
+    options:
+      - Visitantes
+      - Visitantes com crianças
+      - Sozinho em casa
+
+input_boolean:
+  notify_home:
+    name: Notificar quando alguém chega em casa
+    initial: off
+    icon: mdi:car
+
+group:
+  Sistema de Monitoramento:
+    entities:
+      - sensor.cpu_used  
+      - sensor.disk_free_
+      - sensor.disk_use_
+      - sensor.ipv4_address_eth0
+      - sensor.last_boot
+      - sensor.since_last_boot
+      - sensor.since_last_boot_templated
+      - sensor.cpu_temperature
+      - sensor.memory_free
+      - sensor.memory_use
+      - sensor.processor_use
+      - sensor.current_log_level
+      - sensor.temperatura_juniper_srx100
+
+  Pi-Hole Ad Blocker:
+    entities:
+      - sensor.pihole_ads_blocked_today
+      - sensor.pihole_ads_percentage_blocked_today
+      - sensor.pihole_dns_queries_today
+      - sensor.pihole_dns_unique_clients
+      - sensor.pihole_dns_unique_domains
+      - sensor.pihole_domains_blocked
+
+  Velocidade da Internet:
+    entities:
+      - sensor.speedtest_ping 
+      - sensor.speedtest_upload
+      - sensor.speedtest_download
+      - sensor.fastcom_download
+      - sensor.external_ip
+      - sensor.transmission_active_torrents
+      - sensor.transmission_down_speed
+      - sensor.transmission_paused_torrents
+      - sensor.transmission_status
+      - sensor.transmission_total_torrents
+      - sensor.transmission_up_speed
+
+  Data e Hora:
+    entities:
+      - sensor.time
+      - sensor.time_utc
+      - sensor.date
+      - sensor.ha_installed_version
+      - sensor.ha_current_version
+      - sensor.ha_last_restart
+
+  Dispositivos:
+    entities:
+#      - binary_sensor.casa_mae
+      - binary_sensor.dns_google
+      - binary_sensor.dns_nr
+      - binary_sensor.google_home_mini
+      - binary_sensor.arduino
+      - binary_sensor.ddwrt
+      - binary_sensor.juniper
+      - binary_sensor.raspberry_pi
+      - binary_sensor.chromecast
+      - binary_sensor.htv3
+      - binary_sensor.xbox_360
+
+  Outros:
+    entities:
+      - sun.sun
+      - sensor.moon
+      - sensor.uberx_price
+      - sensor.uberx_time
+      - binary_sensor.iss    
+
+  links:
+    name: Links
+    icon: mdi:web
+    entities:
+      - weblink.actions_on_google
+      - weblink.apiai
+      - weblink.google_cloud_platform
+      - weblink.home_assistant
+      - weblink.tor_metrics_atlas
+
+
+camera:
+  - platform: mjpeg
+    name: camera1
+    username: ha
+    password: !secret cameras
+    authentication: basic
+    mjpeg_url: http://10.10.0.28/videostream.cgi
+
+  - platform: mjpeg
+    name: camera2
+    username: ha
+    password: !secret cameras
+    authentication: basic
+    mjpeg_url: http://10.10.0.29/videostream.cgi
+
+
+binary_sensor:
+  - platform: iss
+#  - platform: ping
+#    host: 100.64.13.169
+#    name: Casa Mãe
+  - platform: ping
+    host: 189.124.16.2
+    count: 2
+    scan_interval: 30
+    name: DNS NR
+  - platform: ping
+    host: 8.8.8.8
+    count: 2
+    scan_interval: 30
+    name: DNS Google
+  - platform: ping
+    host: 10.10.0.1
+    count: 2
+    scan_interval: 30
+    name: Juniper
+  - platform: ping
+    host: 10.10.0.2
+    count: 2
+    scan_interval: 30
+    name: Raspberry PI
+  - platform: ping
+    host: 10.10.0.3
+    count: 2
+    scan_interval: 30
+    name: Arduino
+  - platform: ping
+    host: 10.10.0.30
+    count: 2
+    scan_interval: 30
+    name: DD-WRT    
+  - platform: ping
+    host: 10.10.0.14
+    count: 2
+    scan_interval: 30
+    name: Google Home mini
+  - platform: ping
+    host: 10.10.0.4
+    count: 2
+    scan_interval: 30
+    name: Chromecast
+  - platform: ping
+    host: 10.10.0.9
+    count: 2
+    scan_interval: 30
+    name: XBOX 360
+  - platform: ping
+    host: 10.10.0.7
+    count: 2
+    scan_interval: 30
+    name: HTV3    
+sensor:
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    forecast: 1
+    monitored_conditions:
+#      - summary
+      - icon
+#      - nearest_storm_distance
+      - precip_type
+      - precip_intensity
+      - precip_probability
+#      - precip_accumulation
+      - temperature
+      - apparent_temperature
+#      - dew_point
+      - wind_speed
+      - wind_bearing
+#      - cloud_cover
+      - humidity
+      - pressure
+#      - visibility
+#      - ozone
+#      - minutely_summary
+#      - hourly_summary
+#      - daily_summary
+#      - temperature_high
+#      - temperature_low
+      - apparent_temperature_high
+      - apparent_temperature_low
+#      - precip_intensity_max
+#      - uv_index
+#      - moon_phase
+    language:
+        pt
+#    units:
+#        auto
+    update_interval:
+        days: 0
+        hours: 0
+        minutes: 10
+        seconds: 0
+        milliseconds: 0
+
+  - platform: moon
+  
+  - platform: yr
+
+  - platform: mqtt
+    state_topic: "blackboard/lm35"
+    name: "Temp Quarto"
+    unit_of_measurement: '°C'
+
+  - platform: mqtt
+    state_topic: "blackboard/ldr"
+    name: "Luz Quarto"
+    unit_of_measurement: '%'
+
+  - platform: rest
+#    resource: http://ip.jsontest.com
+    resource: https://api.ipify.org?format=json
+    name: external_ip
+    value_template: '{{ value_json.ip }}'
+
+
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      - 'time_utc'
+
+  - platform: speedtest
+    minute: 30
+    hour:
+      - 0
+      - 6
+      - 12
+      - 18
+
+    monitored_conditions:
+      - ping
+      - download
+      - upload
+
+#  - platform: snmp
+#    name: snmp_wan_in
+#    host: 10.10.0.1
+#    baseoid: 1.3.6.1.4.1.2636.3.3.1.1.1.528
+
+#  - platform: snmp
+#    name: snmp_wan_out
+#    host: 10.10.0.1
+#    baseoid: 1.3.6.1.4.1.2636.3.3.1.1.4.528
+  
+  - platform: systemmonitor
+    resources:
+      - type: disk_use
+        arg: /
+      - type: disk_free
+        arg: /
+      - type: memory_free
+      - type: memory_use
+      - type: processor_use
+      - type: ipv4_address
+        arg: eth0
+      - type: last_boot
+      - type: since_last_boot
+
+  - platform: rest
+    resource: https://pypi.python.org/pypi/homeassistant/json
+    name: HA Current Version
+    value_template: '{{ value_json.info.version }}'
+
+  - platform: command_line
+    name: HA Installed Version
+    command: hass --version
+    scan_interval: 86400
+
+  - platform: template
+    sensors:
+      ha_last_restart:
+        value_template: '{% if states.automation.startup_notification and states.automation.startup_notification.attributes.last_triggered %}
+                           {{ as_timestamp(states.automation.startup_notification.attributes.last_triggered) | timestamp_custom("%b %d %X") }}
+                         {% else %}
+                           Nunca
+                         {% endif %}'
+        friendly_name: HA última reinicialização
+
+      since_last_boot_templated:
+        value_template: >-
+          {%- set slb = states.sensor.since_last_boot.state.split(' ') -%}
+          {%- set count = slb | length -%}
+          {%- set hms = slb[count - 1] -%}
+          {%- set hms_trimmed = hms.split('.')[0] -%}
+          {%- set hms_split = hms_trimmed.split(':') -%}
+          {%- set hours = hms_split[0] | int -%}
+     
+          {%- if count == 3 -%}
+            {{ slb[0] ~ ' ' ~ slb[1] ~ ' ' }}
+          {%- endif -%}
+          {%- if hours > 0 -%}
+            {%- if hours == 1 -%}
+              1 hora
+            {%- else -%}
+              {{ hours }} horas
+            {%- endif -%}
+          {%- endif -%}        
+
+  - platform: command_line
+    name: CPU Temperature
+    command: "cat /sys/class/thermal/thermal_zone0/temp"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | multiply(0.001) | round(1) }}'
+
+#  - platform: command_line
+#    name: Nível de Sinal
+#    command: "iwconfig wlan0 | grep -i signal"
+#    value_template: >
+#      {{ value.split(' ')[4].split('=')[1][1:] }}
+#    unit_of_measurement: 'dBm'
+
+#  - platform: command_line
+#    name: Qualidade do Link
+#    command: "iwconfig wlan0 | grep -i signal"
+#    value_template: >
+#      {{ value.split(' ')[1].split('=')[1]  }}
+
+  - platform: torque
+    email: !secret email
+ 
+  - platform: fastdotcom
+    minute:
+      - 0
+      - 30
+
+  - platform: snmp
+    name: 'Temperatura Juniper SRX100'
+    host: 10.10.0.1
+    community: public
+    version: 2c
+    accept_errors: true
+    baseoid: 1.3.6.1.4.1.2636.3.1.13.1.7.9.1.0.0 
+    unit_of_measurement: '°C'
+
+  # - platform: template
+  #   sensors:
+  #       htv3:
+  #         friendly_name: 'Moto Z'
+  #         value_template: "{{ 'Online' if is_state('device_tracker.motoz', 'home') else 'Offline' }}"

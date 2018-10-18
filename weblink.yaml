@@ -1,0 +1,18 @@
+ entities:
+#    - name: Roteador
+#      url: http://10.10.0.30
+    - name: Home Assistant
+      url: https://home-assistant.io
+      icon: mdi:home-assistant
+    - name: API.ai
+      url: https://dialogflow.com
+      icon: mdi:google-allo
+    - name: Google Cloud Platform
+      url: https://console.cloud.google.com
+      icon: mdi:google
+    - name: Actions on Google
+      url: https://console.actions.google.com
+      icon: mdi:google-assistant
+    - name: Tor Metrics (Atlas)
+      icon: mdi:tor
+      url: https://atlas.torproject.org

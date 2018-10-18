@@ -1,1 +1,81 @@
-[]
+  - id: tema-dia-inicialização
+    alias: Definir o tema do dia na inicialização
+    initial_state: 'on'
+    hide_entity: true
+    trigger:
+      platform: homeassistant
+      event: start
+    condition:
+      - condition: sun
+        after: sunrise
+        after_offset: +00:30:00
+    action:
+      - service: frontend.set_theme
+        data:
+          name: default
+  - id: tema-noite-inicialização
+    alias: Definir o tema da noite na inicialização
+    initial_state: 'on'
+    hide_entity: true
+    trigger:
+      platform: homeassistant
+      event: start
+    condition:
+      - condition: sun
+        after: sunset
+    action:
+      - service: frontend.set_theme
+        data:
+          name: darkblue
+  - id: tema-nascerdosol
+    alias: Definir o tema dia no nascer do sol
+    #hide_entity: true
+    trigger:
+      platform: sun
+      event: sunrise
+      offset: +00:30:00
+    action:
+      - service: frontend.set_theme
+        data:
+          name: default
+  - id: tema-pordosol
+    alias: Definir o tema noite no por do sol
+    #hide_entity: true
+    trigger:
+      platform: sun
+      event: sunset
+    action:
+      - service: frontend.set_theme
+        data:
+          name: darkblue
+
+  - id: letsencrypt-renewal
+    alias: "Renovação Let's Encrypt"
+    trigger:
+      - platform: time
+        at: '00:00:00'
+    action:
+      - service: hassio.addon_restart
+        data:
+          addon: core_letsencrypt
+
+  - id: alerta-ip
+    alias: Notificar do novo IP externo
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: sensor.external_ip
+    condition:
+      - condition: template
+        value_template: "{% if trigger.from_state and trigger.to_state %} true {% else %} false {% endif %}"
+      - condition: template
+        value_template: "{% if trigger.from_state.state == 'unavailable' %} false {% else %} true {% endif %}"
+      - condition: template
+        value_template: "{% if trigger.to_state.state == 'unavailable' %} false {% else %} true {% endif %}"
+      - condition: template
+        value_template: "{{ trigger.from_state.state != trigger.to_state.state }}"
+    action:
+      - service: script.notify_me
+        data_template:
+          message: "Seu IP externo mudou de {{ trigger.from_state.state }} para {{ trigger.to_state.state }}"

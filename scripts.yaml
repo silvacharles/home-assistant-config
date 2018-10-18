@@ -1,0 +1,18 @@
+ifttt_notify:
+  sequence:
+  - condition: template
+    value_template: '{{ message | trim != "" }}'
+  - data_template:
+      event: Smart_Home
+      value1: '{{ message }}'
+      value2: 'Home Assistant'
+    service: ifttt.trigger
+  alias: IFTTT
+notify_me:
+  sequence:
+  - condition: template
+    value_template: '{{ message | trim != "" }}'
+  - data_template:
+      message: '{{ message }}'
+    service: script.ifttt_notify
+  alias: Notify Me

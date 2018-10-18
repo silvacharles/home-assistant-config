@@ -1,0 +1,245 @@
+sensor.yr_symbol:
+  friendly_name: Clima Tempo
+
+sensor.external_ip:
+  friendly_name: IP Externo
+  icon: mdi:server
+
+sensor.pihole_ads_blocked_today:
+  friendly_name: Anúncios Pi-Hole bloqueados hoje
+
+sensor.pihole_ads_percentage_blocked_today:
+  friendly_name: Porcentagem de Pi-Hole Ads bloqueada hoje
+
+sensor.pihole_dns_queries_today:
+  friendly_name: Consultas DNS Pi-Hole Hoje
+
+sensor.pihole_dns_unique_clients:
+  friendly_name: Clientes Exclusivos do Pi-Hole DNS
+
+sensor.pihole_dns_unique_domains:
+  friendly_name: Domínios Exclusivos do Pi-Hole DNS
+
+sensor.pihole_domains_blocked:
+  friendly_name: Domínios Pi-Hole Bloqueados
+
+sensor.cpu_temperature:
+  friendly_name: Temperatura do CPU
+
+sensor.transmission_active_torrents:
+  friendly_name: Torrents ativos de transmissão
+
+sensor.transmission_down_speed:
+  friendly_name: Velocidade de transmissão de Download
+
+sensor.transmission_paused_torrents:
+  friendly_name: Torrents pausados
+
+sensor.transmission_status:
+  friendly_name: Status da transmissão
+
+sensor.transmission_total_torrents:
+  friendly_name: Total de Torrents
+
+sensor.transmission_up_speed:
+  friendly_name: Velocidade de transmissão de Upload
+
+sensor.fastcom_download:
+  icon: mdi:speedometer      
+
+sensor.speedtest_ping:
+  friendly_name: Velocidade Ping
+
+sensor.speedtest_upload:
+  friendly_name: Velocidade Upload
+
+sensor.speedtest_download:
+  friendly_name: Velocidade Download
+
+sensor.cpu_speed:
+  friendly_name: Velocidade CPU
+
+sensor.cpu_used:
+  friendly_name: Uso CPU
+
+sensor.disk_free_:
+  friendly_name: Disco Disponível
+
+sensor.disk_use_:
+  friendly_name: Disco Utilizado
+
+sensor.memory_free:
+  friendly_name: Memória Disponível
+
+sensor.memory_use:
+  friendly_name: Memória Utilizada
+
+sensor.processor_use:
+  friendly_name: Uso do Processador
+
+sensor.ipv4_address_eth0:
+  friendly_name: Endereço IP
+ 
+sensor.last_boot:
+  friendly_name: Última Inicialização
+
+sensor.since_last_boot_templated:
+  friendly_name: Uptime
+
+sensor.time:
+  friendly_name: Hora
+     
+sensor.date:
+  friendly_name: Data
+      
+sensor.ha_installed_version:
+  icon: mdi:home-assistant
+  friendly_name: Versão instalada do HA
+
+sensor.ha_current_version:
+  icon: mdi:home-assistant
+  friendly_name: Versão atual do HA
+  
+sensor.ha_last_restart:
+  icon: mdi:home-assistant
+
+automation.login_failure:
+  friendly_name: Falhas de login do alerta
+
+automation.startup_notification:
+  friendly_name: Notificar eventos de inicialização
+  icon: mdi:thumb-up
+
+automation.update_available_notification:
+  friendly_name: Notificar novas atualizações
+  icon: mdi:update
+
+camera.camera1:
+  friendly_name: Câmera da Garagem
+
+camera.camera2:
+  friendly_name: Câmera do Quarto
+
+switch.ac:
+  icon: mdi:air-conditioner
+  friendly_name: AC Quarto
+
+group.cameras:
+  hidden: true
+
+sensor.carro:
+  icon: mdi:car
+
+binary_sensor.google_home_mini:
+  icon: mdi:google-home
+
+binary_sensor.chromecast:
+  icon: mdi:youtube-tv
+  
+binary_sensor.arduino:
+  icon: mdi:raspberrypi
+
+binary_sensor.raspberry_pi:     
+  icon: mdi:raspberrypi
+
+binary_sensor.juniper:  
+  icon: mdi:server
+
+binary_sensor.ddwrt:  
+  icon: mdi:router-wireless
+
+binary_sensor.xbox_360:
+   icon: mdi:xbox
+
+binary_sensor.htv3:
+   icon: mdi:television-box
+
+sensor.uberx_price:
+  friendly_name: Preço UberX
+  
+sensor.uberx_time:
+  friendly_name: Tempo UberX
+  
+sensor.waze_travel_time:
+   friendly_name: Tempo de viagem Waze
+
+sensor.moon:
+   friendly_name: Fase da Lua   
+
+sun.sun:
+   friendly_name: Sol
+
+sensor.since_last_boot:
+    hidden: true
+
+device_tracker.googlehome:
+    hidden: true
+
+device_tracker.xbox360_wifi:
+    hidden: true    
+
+sensor.dark_sky_apparent_temperature:
+    hidden: true
+
+sensor.dark_sky_daytime_high_apparent_temperature:
+    hidden: true
+
+sensor.dark_sky_daytime_high_apparent_temperature_1:
+    hidden: true
+
+sensor.dark_sky_humidity:
+    hidden: true
+
+sensor.dark_sky_humidity_1:
+    hidden: true
+
+sensor.dark_sky_icon:
+    hidden: true
+
+sensor.dark_sky_icon_1:
+    hidden: true
+
+sensor.dark_sky_overnight_low_apparent_temperature:
+    hidden: true
+
+sensor.dark_sky_overnight_low_apparent_temperature_1:
+    hidden: true
+
+sensor.dark_sky_precip:
+    hidden: true  
+
+sensor.dark_sky_precip_1:
+    hidden: true  
+
+sensor.dark_sky_precip_intensity:
+    hidden: true  
+
+sensor.dark_sky_precip_intensity_1:
+    hidden: true 
+
+sensor.dark_sky_precip_probability:
+    hidden: true 
+
+sensor.dark_sky_precip_probability_1:
+    hidden: true  
+
+sensor.dark_sky_pressure:
+    hidden: true  
+
+sensor.dark_sky_pressure_1:
+    hidden: true  
+
+sensor.dark_sky_temperature:
+    hidden: true  
+
+sensor.dark_sky_wind_bearing:
+    hidden: true 
+
+sensor.dark_sky_wind_bearing_1:
+    hidden: true  
+
+sensor.dark_sky_wind_speed:
+    hidden: true  
+
+sensor.dark_sky_wind_speed_1:
+    hidden: true

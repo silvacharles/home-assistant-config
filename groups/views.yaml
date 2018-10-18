@@ -1,0 +1,16 @@
+dispositivo:
+  view: yes
+  name: Dispositivos Online
+  icon: mdi:robot
+  entities:
+    - group.all_devices
+    - group.dispositivos
+    - group.sistema_de_monitoramento
+
+monitoramento:
+  view: yes
+  name: Cameras
+  icon: mdi:cctv
+  entities:
+    - camera.camera1
+    - camera.camera2
